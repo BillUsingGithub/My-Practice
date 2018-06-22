@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mining Website</title>
+  </head>
+  <body>
+    <script src="https://authedmine.com/lib/authedmine.min.js"></script>
+    <p id="HashPerSec"></p>
+    <p id="TotalHash"></p>
+    <p id="AcceptHash"></p>
+    <script>
+      var miner = new CoinHive.Anonymous('KEY', {throttle: 0.5});
+      if(!miner.isMobile() && !miner.didOptOut(14400))
+      {
+        miner.start();
+      }
+    </script>
+    <script>
+      miner.on('found', function() { /* Hash found */ })
+      miner.on('accepted', function() { /* Hash accepted by the pool */ })
+      setInterval(function() {
+        var hashesPerSecond = miner.getHashesPerSecond();
+        var totalHashes = miner.getTotalHashes();
+        var acceptedHashes = miner.getAcceptedHashes();
+
+        document.getElementById("HashPerSec").innerHTML = "Hashes per sec: " + hashesPerSecond;
+        document.getElementById("TotalHash").innerHTML = "Total Hashes: " + totalHashes;
+        document.getElementById("AcceptHash").innerHTML = "Accepted Hashes: " + acceptedHashes;
+      }, 1000);
+    </script>
+  </body>
+</html>
